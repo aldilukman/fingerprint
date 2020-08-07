@@ -1,0 +1,22 @@
+﻿<controls:MetroWindow x:Class="FingerPrintManagement.ShowTime"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:viewModels="clr-namespace:FingerPrintManagement.ViewModels"
+        xmlns:local="clr-namespace:FingerPrintManagement"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="FInger Print Management" Height="600" Width="1000">
+    <Grid>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="569" VerticalAlignment="Top" Width="102" BorderBrush="#FFA08181" OpacityMask="#FF1D1A1A" Background="White"/>
+        <Button Content="" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="92" Height="48" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="Asset/close.png" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+
+    </Grid>
+
+</controls:MetroWindow>

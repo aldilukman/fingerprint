@@ -1,0 +1,26 @@
+﻿<Window x:Class="HamburgerMenuApp.Core.Views.InsertAccount"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:HamburgerMenuApp.Core.Views"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Title="Insert Data Mahasiswa" 
+                      WindowStartupLocation="CenterScreen"
+                      Height="210"
+                      Width="500">
+    <Grid>
+        <Button Name="insert" Content="Insert" HorizontalAlignment="Left" Margin="331,133,0,0" VerticalAlignment="Top" Width="75" Click="insert_Click"/>
+        <Label Content="Nama" HorizontalAlignment="Left" Margin="39,32,0,0" VerticalAlignment="Top"/>
+        <Label Content="Status" HorizontalAlignment="Left" Margin="39,63,0,0" VerticalAlignment="Top" Width="62"/>
+        <Label Content="Nomor" HorizontalAlignment="Left" Margin="39,96,0,0" VerticalAlignment="Top" Width="62"/>
+        <TextBox Name="nama" HorizontalAlignment="Left" Height="23" Margin="139,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="270"/>
+        <TextBox Name="nomor" HorizontalAlignment="Left" Height="23" Margin="139,96,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="270"/>
+        <ComboBox Name="status" HorizontalAlignment="Left" Margin="139,63,0,0" VerticalAlignment="Top" Width="270"/>
+        <Label Name="loading" Content="" HorizontalAlignment="Left" Margin="22,133,0,0" VerticalAlignment="Top" Width="251"/>
+        <Button x:Name="cancel" Content="Cancel" HorizontalAlignment="Left" Margin="251,133,0,0" VerticalAlignment="Top" Width="75" Click="cancel_Click" />
+
+    </Grid>
+</Window>

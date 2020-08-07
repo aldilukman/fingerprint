@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="HamburgerMenuApp.Core.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="858.036">
+    <Grid>
+        <DataGrid Name="dataGrid1" RowHeight="30" ColumnWidth="124" AlternatingRowBackground="#FFE8E8E8" Margin="0,62,0,0" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="50" Click="ShowHideDetails">Del</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="50" Click="UpdateDetails">Upd</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="OpenGate"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Open Gate" Height="53" Width="178" Margin="0,0,190,0" Click="OpenGate_Click" />
+
+        <Button Name="insert"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Insert Data" Height="53" Width="178" Click="insert_Click" Margin="0,0,6,0" />
+        <Label Content="Nama" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="f_nama" HorizontalAlignment="Left" Height="23" Margin="114,26,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="73" />
+        <Label Content="Mata Pelajaran" HorizontalAlignment="Left" Margin="199,0,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="f_mapel" HorizontalAlignment="Left" Height="23" Margin="202,26,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="88" />
+        <Label Content="Status" HorizontalAlignment="Left" Margin="303,0,0,0" VerticalAlignment="Top"/>
+        <Label Content="Hari" HorizontalAlignment="Left" Margin="414,0,0,0" VerticalAlignment="Top"/>
+        <Label Content="Jam Masuk" HorizontalAlignment="Left" Margin="504,0,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="f_fari" HorizontalAlignment="Left" Margin="416,26,0,0" VerticalAlignment="Top" Width="68"/>
+        <ComboBox Name="f_jammasuk_jam" HorizontalAlignment="Left" Margin="504,26,0,0" VerticalAlignment="Top" Width="50"/>
+        <Label Content="Jam Keluar" HorizontalAlignment="Left" Margin="674,0,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="f_jammasuk_menit" HorizontalAlignment="Left" Margin="559,26,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="1.393,0.58"/>
+        <ComboBox Name="f_jammasuk_detik" HorizontalAlignment="Left" Margin="614,26,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="1.393,0.58"/>
+        <ComboBox Name="f_jamkeluar_jam" HorizontalAlignment="Left" Margin="679,26,0,0" VerticalAlignment="Top" Width="50"/>
+        <ComboBox Name="f_jamkeluar_menit" HorizontalAlignment="Left" Margin="734,26,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="1.393,0.58"/>
+        <ComboBox Name="f_jamkeluar_detik" HorizontalAlignment="Left" Margin="789,26,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="1.393,0.58"/>
+        <Button Name="f_search" Content="Cari" HorizontalAlignment="Left" Margin="848,26,-42,0" VerticalAlignment="Top" Width="52" Click="f_search_Click"/>
+        <Button Name="refresh" Content="Refresh" HorizontalAlignment="Left" Margin="906,26,-112,0" VerticalAlignment="Top" Width="64" Click="refresh_Click" />
+        <ComboBox Name="f_status" HorizontalAlignment="Left" Margin="303,26,0,0" VerticalAlignment="Top" Width="99"/>
+        <Label Content="Filter" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="f_filterby" HorizontalAlignment="Left" Margin="7,26,0,0" VerticalAlignment="Top" Width="99" SelectionChanged="filter_change"/>
+    </Grid>
+</UserControl>
