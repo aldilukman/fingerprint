@@ -13,7 +13,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  getFingerprintID();
+  //getFingerprintID();
   if(Serial.available() > 0) {
     String dataReceive = Serial.readStringUntil('\n');
     String dataCode = dataReceive.substring(0,dataReceive.indexOf('_'));
@@ -32,7 +32,7 @@ void loop() {
     }
   }
   
-
+/*
   if (!digitalRead(5)) {
     digitalWrite(ledPin, HIGH);
     Serial.println("P1_Gate Di Buka_");
@@ -42,5 +42,5 @@ void loop() {
   } else {
     digitalWrite(ledPin, LOW);
     
-  }
+  }*/
 }
