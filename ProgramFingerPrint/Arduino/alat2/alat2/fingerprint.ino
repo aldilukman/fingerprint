@@ -24,7 +24,7 @@ uint8_t getFingerprintEnroll(int id) {
   while (p != FINGERPRINT_OK) {
     p = finger.getImage();
     switch (p) {
-    case FINGERPRINT_OK:
+    case FINGERPRIN+T_OK:
        Serial.println("P_Image taken_");
       break;
     case FINGERPRINT_NOFINGER:
