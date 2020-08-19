@@ -47,6 +47,7 @@ namespace HamburgerMenuApp.Core.Views
                     dbConnection.UpdateStatus(0);
                     //Kirim triger ke alat
                     //MessageBox.Show(idFinger.ToString());
+                    dbConnection.UpdateMessage("-");
                     if (sendData(idFinger.ToString()))
                     {
                         loading.Content = "Menunggu balasan alat";
@@ -83,6 +84,8 @@ namespace HamburgerMenuApp.Core.Views
         protected void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             DbConnection dbConnection = new DbConnection();
+            String Message = dbConnection.SelectMessage();
+            loading2.Content = Message;
             if (dbConnection.SelectStatus())
             {
                 dbConnection.InsertHistory("Sukses Insert account dengan nomor : " + nomor.Text);
@@ -98,6 +101,7 @@ namespace HamburgerMenuApp.Core.Views
                 insert.IsEnabled = true;
                 cancel.IsEnabled = true;
                 dbConnection.InsertHistory("Alat Tidak Merespon");
+                
                 MessageBox.Show("Tidak ada Respon alat");
             }
             count++;
@@ -108,10 +112,72 @@ namespace HamburgerMenuApp.Core.Views
             try
             {
                 TcpClient clientSocket = new TcpClient();
+                TcpClient clientSocketRegistrasi = new TcpClient();
+                if (clientSocket.ConnectAsync("192.168.1.7", 12345).Wait(500))
+                {
+                    if (clientSocketRegistrasi.ConnectAsync("192.168.1.6", 12345).Wait(500))
+                    {
+                        byte[] outStream = System.Text.Encoding.ASCII.GetBytes("R_" + nama);
+
+                        NetworkStream serverStream = clientSocket.GetStream();
+                        serverStream.Write(outStream, 0, outStream.Length);
+                        serverStream.Flush();
+                        serverStream.Close();
+                        clientSocket.Close();
+
+                        NetworkStream serverStreamRegistrasi = clientSocketRegistrasi.GetStream();
+                        serverStreamRegistrasi.Write(outStream, 0, outStream.Length);
+                        serverStreamRegistrasi.Flush();
+                        serverStreamRegistrasi.Close();
+                        clientSocketRegistrasi.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Alat Registrasi Mati");
+                        DbConnection dbConnection = new DbConnection();
+                        dbConnection.InsertHistory("Komunikasi Alat finger print di registrasi mati");
+                        return false;
+                    }
+                    
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Alat Gate Mati");
+                    DbConnection dbConnection = new DbConnection();
+                    dbConnection.InsertHistory("Komunikasi Alat finger print di gate mati");
+                    return false;
+                }
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Alat Mati");
+                DbConnection dbConnection = new DbConnection();
+                dbConnection.InsertHistory("Komunikasi Alat finger print mati");
+                return false;
+            }
+            /*
+            try
+            {
+                TcpClient clientSocket = new TcpClient();
                 //mengirim ack
-                clientSocket.Connect("192.168.1.6", 12345);
+                clientSocket.Connect("192.168.1.7", 12345);
                 NetworkStream serverStream = clientSocket.GetStream();
                 byte[] outStream = System.Text.Encoding.ASCII.GetBytes("R_" + nama);
+                serverStream.Write(outStream, 0, outStream.Length);
+                serverStream.Flush();
+
+                //menunggu balasan server
+                serverStream.Close();
+                clientSocket.Close();
+
+                clientSocket = new TcpClient();
+                //mengirim ack
+                clientSocket.Connect("192.168.1.6", 12345);
+                serverStream = clientSocket.GetStream();
+                outStream = System.Text.Encoding.ASCII.GetBytes("R_" + nama);
                 serverStream.Write(outStream, 0, outStream.Length);
                 serverStream.Flush();
 
@@ -127,6 +193,7 @@ namespace HamburgerMenuApp.Core.Views
                 dbConnection.InsertHistory("Komunikasi Alat finger print mati");
                 return false;
             }
+            */
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)

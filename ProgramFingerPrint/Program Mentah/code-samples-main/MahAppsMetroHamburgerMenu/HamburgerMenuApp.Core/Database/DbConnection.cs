@@ -27,7 +27,7 @@ namespace HamburgerMenuApp.Core.Database
         {
             server = "localhost";
             database = "fingerprint";
-            uid = "root";
+            uid = "admin";
             password = "";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
@@ -939,6 +939,23 @@ namespace HamburgerMenuApp.Core.Database
             }
         }
 
+        public void InsertFingerPrintFromByte(String IDIdentitas,byte[] data)
+        {
+            string query = "INSERT INTO fingerprint (DataByte) VALUES(@param_val_1) WHERE IDFINGERPRINT = " + IDIdentitas + ";";
+
+            //open connection
+            if (this.OpenConnection() == true)
+            {
+                //create command and assign the query and connection from the constructor
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.Add("@param_val_1", MySqlDbType.Blob).Value = data;
+                //Execute command
+                cmd.ExecuteNonQuery();
+                //close connection
+                this.CloseConnection();
+            }
+        }
+
         //Update FingerPrint
         public void UpdateFingerPrint(int id, String NomorFF, String IDIdentitas)
         {
@@ -1213,6 +1230,56 @@ namespace HamburgerMenuApp.Core.Database
                 cmd.ExecuteNonQuery();
                 //close connection
                 this.CloseConnection();
+            }
+        }
+
+        public void UpdateMessage(string Message)
+        {
+
+            string query = "UPDATE registrasi SET Message = '" + Message + "'; ";
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //create mysql command
+                MySqlCommand cmd = new MySqlCommand();
+                //Assign the query using CommandText
+                cmd.CommandText = query;
+                //Assign the connection using Connection
+                cmd.Connection = connection;
+                //Execute query
+                cmd.ExecuteNonQuery();
+                //close connection
+                this.CloseConnection();
+            }
+        }
+
+        public string SelectMessage()
+        {
+            string query = "SELECT Message from registrasi ;";
+            //Create a list to store the result
+            //Open connection
+            string status = "None";
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                //Read the data and store them in the list
+                while (dataReader.Read())
+                {
+                    status = dataReader["Message"].ToString();
+                }
+                //close Data Reader
+                dataReader.Close();
+                //close Connection
+                this.CloseConnection();
+                //return list to be displayed
+                return status;
+            }
+            else
+            {
+                return status;
             }
         }
         #endregion

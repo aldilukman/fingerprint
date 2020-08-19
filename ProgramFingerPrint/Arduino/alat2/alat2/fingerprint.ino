@@ -24,7 +24,7 @@ uint8_t getFingerprintEnroll(int id) {
   while (p != FINGERPRINT_OK) {
     p = finger.getImage();
     switch (p) {
-    case FINGERPRIN+T_OK:
+    case FINGERPRINT_OK:
        Serial.println("P_Image taken_");
       break;
     case FINGERPRINT_NOFINGER:
@@ -133,7 +133,7 @@ uint8_t getFingerprintID() {
   }
   
   // OK converted!
-  p = finger.fingerSearch();
+  p = finger.fingerFastSearch();
   if (p == FINGERPRINT_OK) {
      Serial.println("P_Found a print match_");
      Serial.println("B3_");

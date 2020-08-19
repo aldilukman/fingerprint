@@ -75,6 +75,12 @@
     <Compile Include="Views\InsertPelajaran.xaml.cs">
       <DependentUpon>InsertPelajaran.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\InsertPelajaranDetail.xaml.cs">
+      <DependentUpon>InsertPelajaranDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListMataKuliah.xaml.cs">
+      <DependentUpon>ListMataKuliah.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
@@ -112,6 +118,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InsertPelajaran.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InsertPelajaranDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ListMataKuliah.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

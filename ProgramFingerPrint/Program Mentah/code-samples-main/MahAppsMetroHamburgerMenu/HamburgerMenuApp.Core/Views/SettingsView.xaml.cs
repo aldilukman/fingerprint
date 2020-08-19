@@ -352,17 +352,23 @@ namespace HamburgerMenuApp.Core.Views
             try
             {
                 TcpClient clientSocket = new TcpClient();
-                //mengirim ack
-                clientSocket.Connect("192.168.1.6", 12345);
-                NetworkStream serverStream = clientSocket.GetStream();
-                byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nama);
-                serverStream.Write(outStream, 0, outStream.Length);
-                serverStream.Flush();
-
-                //menunggu balasan server
-                serverStream.Close();
-                clientSocket.Close();
-                return true;
+                if (clientSocket.ConnectAsync("192.168.1.7", 12345).Wait(500))
+                {
+                    NetworkStream serverStream = clientSocket.GetStream();
+                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nama);
+                    serverStream.Write(outStream, 0, outStream.Length);
+                    serverStream.Flush();
+                    serverStream.Close();
+                    clientSocket.Close();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Alat Gate Mati");
+                    DbConnection dbConnection = new DbConnection();
+                    dbConnection.InsertHistory("Komunikasi Alat finger print di gate mati");
+                    return false;
+                }
             }
             catch (Exception e)
             {
@@ -371,6 +377,13 @@ namespace HamburgerMenuApp.Core.Views
                 dbConnection.InsertHistory("Komunikasi Alat finger print mati");
                 return false;
             }
+        }
+
+        private void InsertMapel_Click(object sender, RoutedEventArgs e)
+        {
+            ListMataKuliah listMataKuliah = new ListMataKuliah();
+            listMataKuliah.ShowDialog();
+            dataGrid1.ItemsSource = LoadCollectionData();
         }
     }
     public class MataPelajaran

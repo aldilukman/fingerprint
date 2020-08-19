@@ -12,8 +12,8 @@
         <Label Content="Jadwal Keluar" HorizontalAlignment="Left" Margin="51,137,0,0" VerticalAlignment="Top" Width="84"/>
         <Label Content="Hari" HorizontalAlignment="Left" Margin="51,168,0,0" VerticalAlignment="Top" Width="84"/>
         <Label Content="Mata Pelajaran" HorizontalAlignment="Left" Margin="51,75,0,0" VerticalAlignment="Top" Width="100"/>
-        <TextBox Name="nomor" HorizontalAlignment="Left" Height="23" Margin="186,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="240"/>
-        <TextBox Name="mapel" HorizontalAlignment="Left" Height="23" Margin="186,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="240"/>
+        <ComboBox Name="nomor" HorizontalAlignment="Left" Height="23" Margin="186,44,0,0"  VerticalAlignment="Top" Width="240"/>
+        <ComboBox Name="mapel" HorizontalAlignment="Left" Height="23" Margin="186,75,0,0"  VerticalAlignment="Top" Width="240"/>
         <ComboBox Name="hari" HorizontalAlignment="Left" Margin="186,168,0,0" VerticalAlignment="Top" Width="240"/>
         <Button Name="insert" Content="Insert" HorizontalAlignment="Left" Margin="351,212,0,0" VerticalAlignment="Top" Width="75" Click="insert_Click"/>
         <ComboBox x:Name="masukDetik" HorizontalAlignment="Left" Margin="349,106,0,0" VerticalAlignment="Top" Width="77"/>

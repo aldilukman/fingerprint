@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Sockets;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
@@ -13,6 +15,7 @@ namespace HamburgerMenuApp.Core.Views
     public partial class HomeView : UserControl
     {
         private ObservableCollection<history> histories;
+        int count = 0;
         public HomeView()
         {
             InitializeComponent();
@@ -21,12 +24,39 @@ namespace HamburgerMenuApp.Core.Views
 
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 2);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
         }
         protected void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+            //sendData("Ox" + count.ToString());
+            //count++;
             updateDataGrid();
+        }
+
+        public bool sendData(String nama)
+        {
+            try
+            {
+                TcpClient clientSocket = new TcpClient();
+                //mengirim ack
+                clientSocket.Connect("192.168.1.6", 12345);
+                NetworkStream serverStream = clientSocket.GetStream();
+                byte[] outStream = System.Text.Encoding.ASCII.GetBytes("" + nama);
+                serverStream.Write(outStream, 0, outStream.Length);
+                serverStream.Flush();
+
+                //menunggu balasan server
+                
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Alat Mati");
+                DbConnection dbConnection = new DbConnection();
+                dbConnection.InsertHistory("Komunikasi Alat finger print mati");
+                return false;
+            }
         }
         void updateDataGrid()
         {

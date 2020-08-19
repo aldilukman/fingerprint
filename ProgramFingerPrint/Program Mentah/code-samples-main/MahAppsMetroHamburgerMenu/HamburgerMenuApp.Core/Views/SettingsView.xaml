@@ -25,6 +25,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Name="OpenGate"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Open Gate" Height="53" Width="178" Margin="0,0,190,0" Click="OpenGate_Click" />
+        <Button Name="InsertMapel"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="List Mata kuliah" Height="53" Width="178" Margin="0,0,377,0" Click="InsertMapel_Click"  />
 
         <Button Name="insert"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Insert Data" Height="53" Width="178" Click="insert_Click" Margin="0,0,6,0" />
         <Label Content="Nama" HorizontalAlignment="Left" Margin="111,0,0,0" VerticalAlignment="Top"/>

@@ -57,6 +57,14 @@ namespace HamburgerMenuApp
                 {
                     dbConnection.InsertHistory("Ada yang mencoba masuk, ID Tidak dikenali");
                 }
+                else if (dataFromClient.Contains("Alarm"))
+                {
+                    dbConnection.InsertHistory(dataFromClient);
+                }
+                else if (dataFromClient.Contains("Print"))
+                {
+                    dbConnection.UpdateMessage(dataFromClient.Substring(dataFromClient.IndexOf('_')));
+                }
                 else if (dataFromClient.Contains("Open"))
                 {
                     dbConnection.InsertHistory("Gate di buka");

@@ -23,6 +23,17 @@ namespace HamburgerMenuApp.Core.Views
         public InsertPelajaran()
         {
             InitializeComponent();
+            DbConnection dbConnection = new DbConnection();
+            List<String>[] identitasAll = dbConnection.SelectIdentitasAll();
+            for(int i = 0; i < identitasAll[3].Count; i++)
+            {
+                nomor.Items.Add(identitasAll[2][i] +"_"+ identitasAll[3][i]);
+            }
+            List<String>[] mapelAll = dbConnection.SelectMataKuliah();
+            for (int i = 0; i < mapelAll[1].Count; i++)
+            {
+                mapel.Items.Add(mapelAll[1][i]);
+            }
             hari.Items.Add("Senin");
             hari.Items.Add("Selasa");
             hari.Items.Add("Rabu");
@@ -54,12 +65,13 @@ namespace HamburgerMenuApp.Core.Views
 
         private void insert_Click(object sender, RoutedEventArgs e)
         {
-            if(!String.IsNullOrEmpty(nomor.Text) || !String.IsNullOrEmpty(mapel.Text))
+            if(!String.IsNullOrEmpty(nomor.Text) && !String.IsNullOrEmpty(mapel.Text))
             {
                 if(int.Parse(masukJam.Text.ToString()) < int.Parse(keluarJam.Text.ToString()))
                 {
                     DbConnection dbConnection = new DbConnection();
-                    if (dbConnection.InsertJadwalKuliah(nomor.Text, mapel.Text, masukJam.Text + ":" + masukMenit.Text + ":" + masukDetik.Text, keluarJam.Text + ":" + keluarMenit.Text + ":" + keluarDetik.Text, hari.Text))
+                    
+                    if (dbConnection.InsertJadwalKuliah(nomor.Text.Substring(nomor.Text.IndexOf('_') + 1), mapel.Text, masukJam.Text + ":" + masukMenit.Text + ":" + masukDetik.Text, keluarJam.Text + ":" + keluarMenit.Text + ":" + keluarDetik.Text, hari.Text))
                     {
                         dbConnection.InsertHistory("Memasukan jadwal baru dengan akun nomor :" + nomor.Text + " Mata Pelajaran :" + mapel.Text);
                         this.Close();
