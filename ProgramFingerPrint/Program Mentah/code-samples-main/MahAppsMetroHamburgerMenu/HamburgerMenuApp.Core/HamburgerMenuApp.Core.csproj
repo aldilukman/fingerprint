@@ -93,6 +93,9 @@
     <Compile Include="Views\PrivateView.xaml.cs">
       <DependentUpon>PrivateView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SerialPrint.xaml.cs">
+      <DependentUpon>SerialPrint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -144,6 +147,10 @@
     <Page Include="Views\PrivateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SerialPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>

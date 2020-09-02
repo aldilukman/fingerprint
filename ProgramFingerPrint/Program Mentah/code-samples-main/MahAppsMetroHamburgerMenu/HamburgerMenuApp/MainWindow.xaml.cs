@@ -17,6 +17,10 @@ namespace HamburgerMenuApp
         public MainWindow()
         {
             InitializeComponent();
+            Core.Views.SerialPrint serialPrint = new Core.Views.SerialPrint();
+            serialPrint.Show();
+            Core.Views.SerialPrint serialPrint2 = new Core.Views.SerialPrint();
+            serialPrint2.Show();
             listener = new TcpListener(IPAddress.Any, 12346);
             listener.Start();
             StartAccept();
@@ -109,16 +113,22 @@ namespace HamburgerMenuApp
                             {
                                 dbConnection.InsertHistory("Sukses membuka kunci " + dataCheckID[1][0] + " bernama " + dataCheckID[0][0]);
                                 //send connection open
+                                sendDataCustom("P1_" + dataCheckID[0][0] + "_");
+                                sendDataCustom("P_Terima Kasih_");
                                 sendData(dataCheckID[0][0]);
+                                
                             }
                             else
                             {
                                 dbConnection.InsertHistory("Mencoba membuka kunci " + dataCheckID[1][0] + " bernama " + dataCheckID[0][0] + " tapi di luar jadwal");
+                                sendDataCustom("P1_" + dataCheckID[0][0] + "_");
+                                sendDataCustom("P_Belum Terjadwal_");
                             }
                         }
                         else
                         {
                             dbConnection.InsertHistory("Ada yang mencoba masuk, ID Tidak dikenali");
+                            sendDataCustom("P1_Belum Terdaftar");
                         }
                     }
                    
@@ -138,9 +148,30 @@ namespace HamburgerMenuApp
             {
                 TcpClient clientSocket = new TcpClient();
                 //mengirim ack
-                clientSocket.Connect("192.168.1.6", 12345);
+                clientSocket.Connect("192.168.1.7", 12345);
                 NetworkStream serverStream = clientSocket.GetStream();
                 byte[] outStream = System.Text.Encoding.ASCII.GetBytes("O_"+nama);
+                serverStream.Write(outStream, 0, outStream.Length);
+                serverStream.Flush();
+
+                //menunggu balasan server
+                serverStream.Close();
+                clientSocket.Close();
+            }
+            catch (Exception e)
+            {
+                //MessageBox.Show(e.Message);
+            }
+        }
+        public void sendDataCustom(String nama)
+        {
+            try
+            {
+                TcpClient clientSocket = new TcpClient();
+                //mengirim ack
+                clientSocket.Connect("192.168.1.7", 12345);
+                NetworkStream serverStream = clientSocket.GetStream();
+                byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nama);
                 serverStream.Write(outStream, 0, outStream.Length);
                 serverStream.Flush();
 

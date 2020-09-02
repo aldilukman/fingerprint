@@ -938,7 +938,7 @@ namespace HamburgerMenuApp.Core.Database
                 this.CloseConnection();
             }
         }
-
+        /*
         public void InsertFingerPrintFromByte(String IDIdentitas,byte[] data)
         {
             string query = "INSERT INTO fingerprint (DataByte) VALUES(@param_val_1) WHERE IDFINGERPRINT = " + IDIdentitas + ";";
@@ -955,7 +955,7 @@ namespace HamburgerMenuApp.Core.Database
                 this.CloseConnection();
             }
         }
-
+        */
         //Update FingerPrint
         public void UpdateFingerPrint(int id, String NomorFF, String IDIdentitas)
         {

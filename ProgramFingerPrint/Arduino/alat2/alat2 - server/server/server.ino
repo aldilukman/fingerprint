@@ -25,7 +25,7 @@ void setup() {
   Ethernet.begin(mac, ip);
   server.begin();
   setupFingerPrint();
-  pinMode(buttonPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
 
 }
 
@@ -50,18 +50,19 @@ void loop() {
       if (dataCode == "R") {
         //waiting data enroll
         NoRegistrasi = dataValue.toInt();
-        Serial.println("P1_Register_");
+        Serial.println("P1_Registrasi_");
         Serial.println(NoRegistrasi);
         unsigned long currentMillis = millis(); // grab current time
         unsigned long currentMillisLCD = millis(); // grab current time
         int detikLCD =1;
-        Serial.println("P_1 dari 30_");
+        //Serial.println("P_1 dari 30_");
         uint8_t bytesReceived[900];
-        client.stop();
+        //client.stop();
+        
         EthernetClient client2 = server.available();
 
         while (!client2) {
-          
+          client2 = server.available();
           previousMillis = millis();
           if ((unsigned long)(previousMillis-currentMillis) >= interval) {
             break;
@@ -73,20 +74,8 @@ void loop() {
             Serial.println(" dari 30_");
             currentMillisLCD = millis();
           }
-          client2 = server.available();
-          //getFingerprintID();
-          int buttonState = digitalRead(buttonPin);
-          if (buttonState == HIGH) {
-            SendData("Open");
-            digitalWrite(ledPin, HIGH);
-            Serial.println("P1_Gate Di Buka_");
-            Serial.println("O_Open_");
-            Serial.println("M_Open_");
-            //delay(1000);
-          } else {
-            //digitalWrite(ledPin, LOW);
-            //Serial.println("P1_Gate Di lose_");
-          }
+          
+          
         }
         if (client2) {
           int i = 0;
@@ -128,14 +117,14 @@ void loop() {
           int p = finger.uploadModelDY50(packet2, packet3, packet4, packet5, packet6, packet7);    // Simpan di Char Buffer 01
           switch (p) {
             case FINGERPRINT_OK:
-              Serial.println("P1_SUKSES");
+              Serial.println("P1_SUKSES_");
               //Serial.read();
               break;
             case FINGERPRINT_PACKETRECIEVEERR:
-              Serial.println("P1_Communication error");
+              Serial.println("P1_Communication error_");
               return p;
             case FINGERPRINT_BADPACKET:
-              Serial.println("P1_Bad packet");
+              Serial.println("P1_Bad packet_");
               return p;
             default:
               {
@@ -145,20 +134,21 @@ void loop() {
           }
           p = finger.storeModel(NoRegistrasi);                  // taruh di ID = 0 pada flash memory FP
           if (p == FINGERPRINT_OK) {
-            Serial.println("P1_Stored ");
+            
             SendData("Sukses");
             Serial.println("P1_Register Selesai_");
+            //server.begin();
           } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
-            Serial.println("P1_Communication error");
+            Serial.println("P1_Communication error_");
             //return p;
           } else if (p == FINGERPRINT_BADLOCATION) {
-            Serial.println("P1_Could not store in that location");
+            Serial.println("P1_Could not store in that location_");
             //return p;
           } else if (p == FINGERPRINT_FLASHERR) {
-            Serial.println("P1_Error writing to flash");
+            Serial.println("P1_Error writing to flash_");
             //return p;
           } else {
-            Serial.println("P1_Unknown error");
+            Serial.println("P1_Unknown error_");
             //return p;
           }
         }
@@ -182,16 +172,28 @@ void loop() {
     client.stop();
   }
   getFingerprintID();
+  /*if(!digitalRead(5)){
+    
+  }
+  else {
+      SendData("Open");
+    digitalWrite(ledPin, HIGH);
+    Serial.println("P1_Gate Di Buka_");
+    Serial.println("O_Open_");
+    Serial.println("M_Open_");
+    delay(1000);
+  }*/
   int buttonState = digitalRead(buttonPin);
   if (buttonState == HIGH) {
+    
+  } else {
+    //digitalWrite(ledPin, LOW);
+    //Serial.println("P1_Gate Di lose_");
     SendData("Open");
     digitalWrite(ledPin, HIGH);
     Serial.println("P1_Gate Di Buka_");
     Serial.println("O_Open_");
     Serial.println("M_Open_");
     delay(1000);
-  } else {
-    //digitalWrite(ledPin, LOW);
-    //Serial.println("P1_Gate Di lose_");
   }
 }

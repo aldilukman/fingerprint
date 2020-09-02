@@ -10,12 +10,13 @@ void setupFingerPrint()
     Serial.println("P1_Not Found Sensor_");
     while (5000) {
       SendData("Alarm Sensor finger pada gate tidak ditemukan harus di restart");
+      delay(5000);
     }
   }
 }
 void enroll(int idNumber)                     // run over and over again
 {
-  while (!  getFingerprintEnroll(idNumber) );
+  getFingerprintEnroll(idNumber);
 }
 
 uint8_t getFingerprintEnroll(int id) {
@@ -146,13 +147,23 @@ uint8_t downloadFingerprintTemplate(uint16_t id)
     }
   }
   i = 0;
-  EthernetClient client;
-  if (client.connect(IPAddress(192, 168, 1, 7), 12345))
+  EthernetClient client4;
+  int dataCount = 0;
+  while(!client4.connect(IPAddress(192, 168, 1, 7), 12345)){
+    dataCount++;
+    if(dataCount == 10){
+      break;
+    }
+    Serial.print("Try Send ");
+    Serial.println(dataCount);
+    delay(1000);
+  }
+  if (dataCount < 10)
   {
     while (i <= 900 ) {
-      client.write(bytesReceived[i++]);
+      client4.write(bytesReceived[i++]);
     }
-    client.stop();
+    client4.stop();
   }else{
     SendData("Print_Not Connect to Gate");
   }
@@ -163,21 +174,20 @@ uint8_t downloadFingerprintTemplate(uint16_t id)
   int a = 0, x = 3;
   Serial.print("uint8_t packet2[] = {");
   for (int i = 10; i <= 832; ++i) {
-    a++;
-    if (a >= 129)
-    {
-      i += 10;
-      a = 0;
-      Serial.println("};"); Serial.print("uint8_t packet"); Serial.print(x); Serial.print("[] = {");
+      a++;
+      if (a >= 129)
+        {
+          i+=10;
+          a=0;
+          Serial.println("};");Serial.print("uint8_t packet");Serial.print(x);Serial.print("[] = {");
       x++;
-    }
-    else
-    {
-      Serial.print("0x"); printHex(bytesReceived[i - 1] , 2); Serial.print(", "); //Serial.print("/");
-    }
+        }
+      else
+      {
+         Serial.print("0x"); printHex(bytesReceived[i-1] , 2); Serial.print(", ");//Serial.print("/"); 
+      }
   }
-  Serial.println("};");
-  SendData("Print_COMPLETED");
+  //SendData("Print_COMPLETED");
   
 }
 
@@ -194,16 +204,15 @@ void printHex(int num, int precision) {
 }
 void SendData(String numberFF) {
   EthernetClient client3;
+  Serial.print("Kirim Data ");
+  Serial.println(numberFF);
   if (client3.connect(IPAddress(192, 168, 1, 1), 12346))
   {
-    Serial.print("Kirim Data ");
-    Serial.println(numberFF);
     client3.println(numberFF);
     client3.stop();
   }
   else
   {
     Serial.println("P1_Server Not Connect");
-    Serial.println("P_Server Not Connect");
   }
 }

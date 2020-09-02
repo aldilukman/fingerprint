@@ -35,63 +35,71 @@ namespace HamburgerMenuApp.Core.Views
 
         private void insert_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(nama.Text) || !String.IsNullOrEmpty(nomor.Text))
+            try
             {
-                DbConnection dbConnection = new DbConnection();
-                if (dbConnection.SelectIdentitas(nomor.Text)[0].Count == 0)
+                if (!String.IsNullOrEmpty(nama.Text) || !String.IsNullOrEmpty(nomor.Text))
                 {
-                    //tambahkan data user
-                    dbConnection.InsertIdentitas(status.Text, nama.Text, nomor.Text);
-                    dbConnection.InsertFingerPrint(dbConnection.SelectIdentitas(nomor.Text)[0][0]);
-                    int idFinger = dbConnection.SelectFingerPrintFromIdentitas(dbConnection.SelectIdentitas(nomor.Text)[0][0]);
-                    dbConnection.UpdateStatus(0);
-                    //Kirim triger ke alat
-                    //MessageBox.Show(idFinger.ToString());
-                    dbConnection.UpdateMessage("-");
-                    if (sendData(idFinger.ToString()))
+                    DbConnection dbConnection = new DbConnection();
+                    if (dbConnection.SelectIdentitas(nomor.Text)[0].Count == 0)
                     {
-                        loading.Content = "Menunggu balasan alat";
-                        count = 0;
-                        status.IsEnabled = false;
-                        nama.IsEnabled = false;
-                        nomor.IsEnabled = false;
-                        insert.IsEnabled = false;
-                        cancel.IsEnabled = false;
-                        //tunggu balasan alat sampai selesai input data/ ditunggu sampai 1 menit
-                        dispatcherTimer = new DispatcherTimer();
-                        dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                        dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-                        dispatcherTimer.Start();
+                        //tambahkan data user
+                        dbConnection.InsertIdentitas(status.Text, nama.Text, nomor.Text);
+                        dbConnection.InsertFingerPrint(dbConnection.SelectIdentitas(nomor.Text)[0][0]);
+                        int idFinger = dbConnection.SelectFingerPrintFromIdentitas(dbConnection.SelectIdentitas(nomor.Text)[0][0]);
+                        dbConnection.UpdateStatus(0);
+                        //Kirim triger ke alat
+                        //MessageBox.Show(idFinger.ToString());
+                        dbConnection.UpdateMessage("-");
+                        if (sendData(idFinger.ToString()))
+                        {
+                            loading.Content = "Menunggu balasan alat";
+                            count = 0;
+                            status.IsEnabled = false;
+                            nama.IsEnabled = false;
+                            nomor.IsEnabled = false;
+                            insert.IsEnabled = false;
+                            cancel.IsEnabled = false;
+                            //tunggu balasan alat sampai selesai input data/ ditunggu sampai 1 menit
+                            dispatcherTimer = new DispatcherTimer();
+                            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+                            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                            dispatcherTimer.Start();
+                        }
+                        else
+                        {
+                            dbConnection.DeleteIdentitas(int.Parse(dbConnection.SelectIdentitas(nomor.Text)[0][0]));
+                        }
+
+
                     }
                     else
                     {
-                        dbConnection.DeleteIdentitas(int.Parse(dbConnection.SelectIdentitas(nomor.Text)[0][0]));
+                        MessageBox.Show("Nomor Sudah Terdaftar");
                     }
-                    
-                    
                 }
                 else
                 {
-                    MessageBox.Show("Nomor Sudah Terdaftar");
+                    MessageBox.Show("Data tidak boleh kosong");
                 }
             }
-            else
+            catch(Exception all)
             {
-                MessageBox.Show("Data tidak boleh kosong");
+                MessageBox.Show(all.Message);
             }
+            
             
         }
         protected void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             DbConnection dbConnection = new DbConnection();
-            String Message = dbConnection.SelectMessage();
-            loading2.Content = Message;
+            //String Message = dbConnection.SelectMessage();
+            //loading2.Content = Message;
             if (dbConnection.SelectStatus())
             {
                 dbConnection.InsertHistory("Sukses Insert account dengan nomor : " + nomor.Text);
                 this.Close();
                 dispatcherTimer.Stop();
-            }else if(count == 60)
+            }else if(count == 30)
             {
                 dbConnection.DeleteIdentitas(int.Parse(dbConnection.SelectIdentitas(nomor.Text)[0][0]));
                 dispatcherTimer.Stop();
@@ -105,12 +113,14 @@ namespace HamburgerMenuApp.Core.Views
                 MessageBox.Show("Tidak ada Respon alat");
             }
             count++;
-            loading.Content = "Menunggu balasan alat "+count+" dari 60";
+            loading.Content = "Menunggu balasan alat "+count+" dari 30";
         }
         public bool sendData(String nama)
         {
+            
             try
             {
+                
                 TcpClient clientSocket = new TcpClient();
                 TcpClient clientSocketRegistrasi = new TcpClient();
                 if (clientSocket.ConnectAsync("192.168.1.7", 12345).Wait(500))
@@ -158,6 +168,7 @@ namespace HamburgerMenuApp.Core.Views
                 dbConnection.InsertHistory("Komunikasi Alat finger print mati");
                 return false;
             }
+
             /*
             try
             {
